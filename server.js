@@ -4,15 +4,24 @@ const app = express()
 
 dotenv.config()
 
+// db and authenticator
+import connectDB from './db/connect.js'
+
+// routers
+import authRouter from './routes/authRoutes.js'
+
 // middleware
 import notFoungMiddleware from './middlleware/not-found.js'
 import errorHandlerMiddleware from './middlleware/error-handler.js'
-import connectDB from './db/connect.js'
+
+app.use(express.json())
 
 app.get('/', (req, res) => {
   // throw new Error('error my boi')
   res.send('My son, welcome home!')
 })
+
+app.use('/api/v1/auth', authRouter)
 
 app.use(notFoungMiddleware)
 // place error handler here at the bottom
