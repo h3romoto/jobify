@@ -9,9 +9,10 @@ import connectDB from './db/connect.js'
 
 // routers
 import authRouter from './routes/authRoutes.js'
+import jobsRoutes from './routes/jobsRoutes.js'
 
 // middleware
-import notFoungMiddleware from './middlleware/not-found.js'
+import notFoundMiddleware from './middlleware/not-found.js'
 import errorHandlerMiddleware from './middlleware/error-handler.js'
 
 app.use(express.json())
@@ -22,8 +23,9 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/jobs', jobsRoutes)
 
-app.use(notFoungMiddleware)
+app.use(notFoundMiddleware)
 // place error handler here at the bottom
 app.use(errorHandlerMiddleware)
 
