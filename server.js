@@ -12,8 +12,8 @@ import authRouter from './routes/authRoutes.js'
 import jobsRoutes from './routes/jobsRoutes.js'
 
 // middleware
-import notFoundMiddleware from './middlleware/not-found.js'
-import errorHandlerMiddleware from './middlleware/error-handler.js'
+import notFoundMiddleware from './middleware/not-found.js'
+import errorHandlerMiddleware from './middleware/error-handler.js'
 
 app.use(express.json())
 
