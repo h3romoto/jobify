@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import express from 'express'
+import 'express-async-errors'
 const app = express()
-
 dotenv.config()
 
 // db and authenticator
@@ -26,6 +26,7 @@ app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/jobs', jobsRoutes)
 
 app.use(notFoundMiddleware)
+
 // place error handler here at the bottom
 app.use(errorHandlerMiddleware)
 
