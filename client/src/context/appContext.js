@@ -9,15 +9,19 @@ import {
 import reducer from "./reducer";
 import axios from "axios";
 
+const user = localStorage.getItem('user')
+const token = localStorage.getItem('token')
+const userLocation = localStorage.getItem('location')
+
 export const initialState = {
   isLoading: false,
   showAlert: false,
-  alertText: "",
-  aletType: "",
-  user: null,
+  alertText: '',
+  aletType: '',
+  user: user? JSON.parse(user) : null,
   token: null,
-  userLocation: "",
-  jobLocation: "",
+  userLocation: userLocation | '',
+  jobLocation: '',
 };
 
 const AppContext = React.createContext();
@@ -37,6 +41,18 @@ const AppProvider = ({ children }) => {
     }, 2500);
   };
 
+  const addUserToLocalStorage = ({ user, token, location }) => {
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("token", token);
+    localStorage.setItem("location", location);
+  };
+
+  const removeUserFromLocalStorage = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("location");
+  };
+
   const registerUser = async (currentUser) => {
     dispatch({ type: REGISTER_USER_BEGIN });
 
@@ -47,12 +63,14 @@ const AppProvider = ({ children }) => {
         type: REGISTER_USER_SUCCESS,
         payload: { user, token, location },
       });
-      // local storage
+
+      // add to local storage
+      addUserToLocalStorage({ user, token, location });
     } catch (error) {
       console.log(error.response);
       dispatch({ type: REGISTER_USER_ERROR, payload: error.response.data.msg });
     }
-    clearAlert()
+    clearAlert();
   };
 
   return (
