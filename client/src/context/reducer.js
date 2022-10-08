@@ -1,25 +1,62 @@
-import { DISPLAY_ALERT, CLEAR_ALERT } from "./action"
+import {
+  DISPLAY_ALERT,
+  CLEAR_ALERT,
+  REGISTER_USER_BEGIN,
+  REGISTER_USER_ERROR,
+  REGISTER_USER_SUCCESS,
+} from "./actions";
 
 const reducer = (state, action) => {
-  if (action.type == DISPLAY_ALERT) {
+  if (action.type === DISPLAY_ALERT) {
     return {
-      ...state, 
-      showAlert:true, 
-      alertType:'danger',
-      alertText:'Please provide all values'        
-    }
-  }
-  
-  if (action.type == CLEAR_ALERT) {
-    return {
-      ...state, 
-      showAlert: false, 
-      alertType: '',
-      alertText: ''        
-    }
+      ...state,
+      showAlert: true,
+      alertType: "danger",
+      alertText: "Please provide all values",
+    };
   }
 
-  throw new Error(`no such action : ${action.type}`)
-}
+  if (action.type === CLEAR_ALERT) {
+    return {
+      ...state,
+      showAlert: false,
+      alertType: "",
+      alertText: "",
+    };
+  }
 
-export default reducer
+  if (action.type === REGISTER_USER_BEGIN) {
+    return {
+      ...state,
+      isLoadng: true,
+    };
+  }
+
+  if (action.type === REGISTER_USER_SUCCESS) {
+    return {
+      ...state,
+      isLoadng: false,
+      token: action.payload.token,
+      user: action.payload.user,
+      userLocation: action.payload.useLocation,
+      jobLocation: action.payload.jobLocation,
+      showAlert: true,
+      alertType: "user",
+      alertText: "User created successfully! Redirecting ...",
+    };
+  }
+
+  if (action.type === REGISTER_USER_ERROR) {
+    return {
+      ...state,
+      isLoadng: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    };
+  }
+
+  throw new Error(`no such action : ${action.type}`);
+};
+
+export default reducer;
