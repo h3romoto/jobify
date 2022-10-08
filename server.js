@@ -18,8 +18,11 @@ import errorHandlerMiddleware from './middleware/error-handler.js'
 app.use(express.json())
 
 app.get('/', (req, res) => {
-  // throw new Error('error my boi')
-  res.send('My son, welcome home!')
+  res.send('Titambire!')
+})
+
+app.get('/api/v1', (req, res) => {
+  res.send({msg:'API!'})
 })
 
 app.use('/api/v1/auth', authRouter)
