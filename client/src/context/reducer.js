@@ -44,12 +44,43 @@ const reducer = (state, action) => {
       userLocation: action.payload.useLocation,
       jobLocation: action.payload.jobLocation,
       showAlert: true,
-      alertType: "user",
+      alertType: "success",
       alertText: "User created successfully! Redirecting ...",
     };
   }
 
   if (action.type === REGISTER_USER_ERROR) {
+    return {
+      ...state,
+      isLoadng: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    };
+  }
+
+  if (action.type === LOGIN_USER_BEGIN) {
+    return {
+      ...state,
+      isLoadng: true,
+    };
+  }
+
+  if (action.type === LOGIN_USER_SUCCESS) {
+    return {
+      ...state,
+      isLoadng: false,
+      token: action.payload.token,
+      user: action.payload.user,
+      userLocation: action.payload.useLocation,
+      jobLocation: action.payload.jobLocation,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Login Successful! Redirecting ...",
+    };
+  }
+
+  if (action.type === LOGIN_USER_ERROR) {
     return {
       ...state,
       isLoadng: false,

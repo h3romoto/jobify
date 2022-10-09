@@ -4,7 +4,7 @@ import {
   DISPLAY_ALERT,
   REGISTER_USER_BEGIN,
   REGISTER_USER_ERROR,
-  REGISTER_USER_SUCCESS, 
+  REGISTER_USER_SUCCESS,
   LOGIN_USER_BEGIN,
   LOGIN_USER_ERROR,
   LOGIN_USER_SUCCESS,
@@ -12,20 +12,19 @@ import {
 import reducer from "./reducer";
 import axios from "axios";
 
-const user = localStorage.getItem('user')
-const token = localStorage.getItem('token')
-const userLocation = localStorage.getItem('location')
-
+const user = localStorage.getItem("user");
+const token = localStorage.getItem("token");
+const userLocation = localStorage.getItem("location");
 
 export const initialState = {
   isLoading: false,
   showAlert: false,
-  alertText: '',
-  aletType: '',
-  user: user? JSON.parse(user) : null,
+  alertText: "",
+  aletType: "",
+  user: user ? JSON.parse(user) : null,
   token: null,
-  userLocation: userLocation | '',
-  jobLocation: '',
+  userLocation: userLocation | "",
+  jobLocation: "",
 };
 
 const AppContext = React.createContext();
@@ -71,15 +70,31 @@ const AppProvider = ({ children }) => {
       // add to local storage
       addUserToLocalStorage({ user, token, location });
     } catch (error) {
-      console.log(error.response);
-      dispatch({ type: REGISTER_USER_ERROR, payload: error.response.data.msg });
+      dispatch({ type: REGISTER_USER_ERROR, payload: { msg: error.response.data.msg }});
     }
     clearAlert();
   };
 
   const loginUser = async (currentUser) => {
-    console.log(currentUser)
-  }
+    dispatch({ type: LOGIN_USER_BEGIN });
+
+    try {
+      const { data } = await axios.post("/api/v1/auth/login", currentUser);
+      const { user, token, location } = data;
+      dispatch({
+        type: LOGIN_USER_SUCCESS,
+        payload: { user, token, location },
+      });
+      // add to local storage
+      addUserToLocalStorage({ user, token, location });
+    } catch (error) {
+      dispatch({ 
+        type: LOGIN_USER_ERROR, 
+        payload: { msg: error.response.data.msg } 
+      });
+    }
+    clearAlert();
+  };
 
   return (
     <AppContext.Provider
@@ -95,10 +110,8 @@ const AppProvider = ({ children }) => {
   );
 };
 
-
 export const useAppContext = () => {
   return useContext(AppContext);
 };
-
 
 export { AppProvider };
