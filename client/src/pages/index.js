@@ -1,4 +1,3 @@
-import Dashboard from './Dashboard';
 import Landing from './Landing';
 import Register from './Register';
 import Error from './Error';
@@ -7,4 +6,4 @@ import Error from './Error';
 // importing them in an object and referencing
 // ../pages will cause some kind of stack overflow
 
-export { Dashboard, Error, Landing, Register } 
+export { Error, Landing, Register } 
