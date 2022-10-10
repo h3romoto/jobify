@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Logo, FormRow, Alert } from "../components";
 import Wrapper from "../assets/wrappers/RegisterPage";
 import { useAppContext } from "../context/appContext";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 const initalState = {
   name: "",
@@ -14,10 +14,11 @@ const initalState = {
 // if possible, prefer local state over global state
 
 function Register() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [values, setValues] = useState(initalState);
   // global state and useNavigate
-  const { user, isLoading, showAlert, displayAlert, registerUser, loginUser } = useAppContext();
+  const { user, isLoading, showAlert, displayAlert, registerUser, loginUser } =
+    useAppContext();
 
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
@@ -37,7 +38,7 @@ function Register() {
 
     const currentUser = { name, email, password };
     if (isMember) {
-      loginUser(currentUser)
+      loginUser(currentUser);
     } else {
       registerUser(currentUser);
     }
@@ -47,10 +48,10 @@ function Register() {
   useEffect(() => {
     if (user) {
       setTimeout(() => {
-        navigate('/')
-      }, 3000)
+        navigate("/");
+      }, 3000);
     }
-  }, [user, navigate])
+  }, [user, navigate]);
 
   return (
     <Wrapper className="full-page">

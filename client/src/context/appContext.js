@@ -8,6 +8,7 @@ import {
   LOGIN_USER_BEGIN,
   LOGIN_USER_ERROR,
   LOGIN_USER_SUCCESS,
+  TOGGLE_SIDEBAR,
 } from "./actions";
 import reducer from "./reducer";
 import axios from "axios";
@@ -25,6 +26,7 @@ export const initialState = {
   token: null,
   userLocation: userLocation | "",
   jobLocation: "",
+  showSidebar: false,
 };
 
 const AppContext = React.createContext();
@@ -70,7 +72,10 @@ const AppProvider = ({ children }) => {
       // add to local storage
       addUserToLocalStorage({ user, token, location });
     } catch (error) {
-      dispatch({ type: REGISTER_USER_ERROR, payload: { msg: error.response.data.msg }});
+      dispatch({
+        type: REGISTER_USER_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
     }
     clearAlert();
   };
@@ -88,12 +93,16 @@ const AppProvider = ({ children }) => {
       // add to local storage
       addUserToLocalStorage({ user, token, location });
     } catch (error) {
-      dispatch({ 
-        type: LOGIN_USER_ERROR, 
-        payload: { msg: error.response.data.msg } 
+      dispatch({
+        type: LOGIN_USER_ERROR,
+        payload: { msg: error.response.data.msg },
       });
     }
     clearAlert();
+  };
+
+  const toggleSidebar = () => {
+    dispatch({ type: TOGGLE_SIDEBAR });
   };
 
   return (
@@ -103,6 +112,7 @@ const AppProvider = ({ children }) => {
         displayAlert,
         registerUser,
         loginUser,
+        toggleSidebar,
       }}
     >
       {children}
