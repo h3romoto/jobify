@@ -1,61 +1,67 @@
 import validator from "validator";
 import mongoose from "mongoose";
-import bcryptjs from 'bcryptjs'
-import jwt from 'jsonwebtoken'
+import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-const  UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   name: {
-    type: String, 
-    required: [true, 'Please provide your name'], 
-    minlength: 3, 
-    maxlength: 20, 
+    type: String,
+    required: [true, "Please provide your name"],
+    minlength: 3,
+    maxlength: 20,
     trim: true,
   },
   email: {
-    type: String, 
-    required: [true, 'Please provide your email'],
+    type: String,
+    required: [true, "Please provide your email"],
     unique: true,
     validate: {
-      validator: validator.isEmail, 
-      message: 'Please provide a valid email address'
+      validator: validator.isEmail,
+      message: "Please provide a valid email address",
     },
   },
   password: {
     type: String,
-    required: [true, 'Please provide a password'],
-    minlength: 6, 
+    required: [true, "Please provide a password"],
+    minlength: 6,
     select: false,
   },
   lastName: {
-    type: String, 
-    maxlength: 20, 
+    type: String,
+    maxlength: 20,
     trim: true,
-    default: ' ',
+    default: " ",
   },
   location: {
-    type: String, 
+    type: String,
     trim: true,
-    maxlength: 20, 
-    default: ' ',
+    maxlength: 20,
+    default: " ",
   },
-})
+});
 
 // custom Mongoose method
-UserSchema.methods.createJWT = function() {
-  return jwt.sign({id:this._id}, process.env.JWT_SECRET, { expiresIn: process.env.JWT_LIFETIME})
-}
+UserSchema.methods.createJWT = function () {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_LIFETIME,
+  });
+};
 
-UserSchema.methods.comparePassword = async function(candidatePassword) {
-  const isMatch = await bcryptjs.compare(candidatePassword, this.password)
-  return isMatch
-}
+UserSchema.methods.comparePassword = async function (candidatePassword) {
+  const isMatch = await bcryptjs.compare(candidatePassword, this.password);
+  return isMatch;
+};
 
 // hash password before saving it
-UserSchema.pre('save', async function() {
+UserSchema.pre("save", async function () {
+  // console.log(this.modifiedPaths())
+  // console.log(this.isModified('name'))
+  if (!this.isModified('password')) {
+    return
+  }
+
   const salt = await bcryptjs.genSalt(10);
-  this.password = await bcryptjs.hash(this.password, salt)
-  console.log(this.password)
+  this.password = await bcryptjs.hash(this.password, salt);
+});
 
-})
-
-export default mongoose.model('User', UserSchema)
+export default mongoose.model("User", UserSchema);
