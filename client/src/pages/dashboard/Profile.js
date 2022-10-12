@@ -14,7 +14,7 @@ const Profile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name || !email || !lastName || !location) {
-      // test and rempve temporary
+      // test and remove temporary
       displayAlert();
       return;
     }
@@ -59,8 +59,8 @@ const Profile = () => {
             handleChange={(e) => setLocation(e.target.value)}
           />
 
-          <button className="btn btn-block" type='submit' disabled={isLoading}>
-            {isLoading ? 'Please Wait...' : 'Saved changes'}
+          <button className="btn btn-block" type="submit" disabled={isLoading}>
+            {isLoading ? "Please Wait..." : "Saved changes"}
           </button>
         </div>
       </form>
