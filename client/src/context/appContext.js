@@ -24,7 +24,7 @@ export const initialState = {
   alertText: "",
   aletType: "",
   user: user ? JSON.parse(user) : null,
-  token: null,
+  token: token,
   userLocation: userLocation | "",
   jobLocation: "",
   showSidebar: false,
@@ -34,6 +34,10 @@ const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  // axios setup
+  axios.defaults.headers.common["Authorization"] = `Bearer ${state.token}`;
+  console.log(`MY TOKEN ==> ${state.token}`);
 
   const displayAlert = () => {
     // must have type
@@ -112,17 +116,15 @@ const AppProvider = ({ children }) => {
   };
 
   const updateUser = async (currentUser) => {
-    console.log(`MY TOKEN --> ${state.token}`)
     try {
-      const { data } = await axios.patch('/api/v1/auth/updateUser', currentUser, 
-        {
-          headers: {
-            Authorization: `Bearer ${state.token}`,
-          }
-        })
+      const { data } = await axios.patch(
+        "/api/v1/auth/updateUser",
+        currentUser
+      );
+      // addUserToLocalStorage
       console.log(data);
     } catch (error) {
-      console.log(error.response)
+      console.log(error.response);
     }
   };
 
