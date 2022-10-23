@@ -14,7 +14,7 @@ const Profile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name || !email || !lastName || !location) {
-      // test and rempve temporary
+      // test and remove, temporary
       displayAlert();
       return;
     }

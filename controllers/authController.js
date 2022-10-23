@@ -11,6 +11,13 @@ const register = async (req, res) => {
   if (userExists) {
     throw new BadRequestError("Email already in use");
   }
+  
+  // User.create will not exclude fields which are set to select: false
+  // the passwd is still sent with client req
+  // but this is not a safe practice
+  // get around this by returning specific fields in response body
+  // and not the entire response header and body which would include
+  // the password
   const user = await User.create({ name, email, password });
   const token = user.createJWT();
   res.status(StatusCodes.CREATED).json({
