@@ -112,6 +112,7 @@ const AppProvider = ({ children }) => {
   };
 
   const updateUser = async (currentUser) => {
+    console.log(`MY TOKEN --> ${state.token}`)
     try {
       const { data } = await axios.patch('/api/v1/auth/updateUser', currentUser, 
         {

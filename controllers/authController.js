@@ -11,7 +11,7 @@ const register = async (req, res) => {
   if (userExists) {
     throw new BadRequestError("Email already in use");
   }
-  
+
   // User.create will not exclude fields which are set to select: false
   // the passwd is still sent with client req
   // but this is not a safe practice
@@ -48,8 +48,8 @@ const login = async (req, res) => {
   user.password = undefined;
 
   res.status(StatusCodes.OK).json({
-    user,
-    token,
+    user:user,
+    token:token,
     location: user.location,
   });
 };
