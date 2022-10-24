@@ -19,7 +19,11 @@ const register = async (req, res) => {
   // and not the entire response header and body which would include
   // the password
   const user = await User.create({ name, email, password });
+
+  // create JWT token when login, or register
   const token = user.createJWT();
+
+  // client request response
   res.status(StatusCodes.CREATED).json({
     user: {
       email: user.email,
