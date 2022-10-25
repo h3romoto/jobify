@@ -44,9 +44,9 @@ const AppProvider = ({ children }) => {
 
   // axios request interceptor
   // invoked just before request is made
-  authFetch.interceptors.request.use((config) => {
-      console.log(`CONFIG -> ${JSON.stringify(config.headers)}`);  
-      config.headers.common['Authorization'] = `Bearer ${state.token}`;
+  authFetch.interceptors.request.use((config) => { 
+      config.headers.Authorization = `Bearer ${state.token}`;
+      console.log(`CONFIG -> ${JSON.stringify(config.headers)}`); 
       return config;
     },
     (error) => {
