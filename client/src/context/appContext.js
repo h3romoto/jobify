@@ -35,7 +35,7 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // axios setup
+  // custom axios instance
   const authFetch = axios.create({
     baseURL: "/api/v1",
   });
@@ -44,9 +44,8 @@ const AppProvider = ({ children }) => {
 
   // axios request interceptor
   // invoked just before request is made
-  authFetch.interceptors.request.use(
-    (config) => {
-      // config.headers.common['Authorization'] = `Bearer ${state.token}`;
+  authFetch.interceptors.request.use((config) => {
+      console.log(`CONFIG -> ${JSON.stringify(config.headers)}`);  
       config.headers.common['Authorization'] = `Bearer ${state.token}`;
       return config;
     },
