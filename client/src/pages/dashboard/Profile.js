@@ -60,7 +60,7 @@ const Profile = () => {
           />
 
           <button className="btn btn-block" type='submit' disabled={isLoading}>
-            {isLoading ? 'Please Wait...' : 'Saved changes'}
+            {isLoading ? 'Please Wait...' : 'Save changes'}
           </button>
         </div>
       </form>

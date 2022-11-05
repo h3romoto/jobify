@@ -4,7 +4,7 @@ import Wrapper from "../assets/wrappers/RegisterPage";
 import { useAppContext } from "../context/appContext";
 import { useNavigate } from "react-router-dom";
 
-const initalState = {
+const initialState = {
   name: "",
   email: "",
   password: "",
@@ -15,7 +15,7 @@ const initalState = {
 
 function Register() {
   const navigate = useNavigate();
-  const [values, setValues] = useState(initalState);
+  const [values, setValues] = useState(initialState);
   // global state and useNavigate
   const { user, isLoading, showAlert, displayAlert, registerUser, loginUser } =
     useAppContext();

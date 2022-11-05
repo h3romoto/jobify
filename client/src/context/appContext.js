@@ -22,7 +22,7 @@ export const initialState = {
   isLoading: false,
   showAlert: false,
   alertText: "",
-  aletType: "",
+  alertType: "",
   user: user ? JSON.parse(user) : null,
   token: token,
   userLocation: userLocation | "",
